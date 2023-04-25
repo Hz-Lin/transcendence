@@ -34,7 +34,7 @@ export class ChatGateway
 		private readonly jwtStrategy: JwtStrategy,
 		private readonly sharedService: SharedService,
 	) { }
-	private readonly logger: Logger = new Logger('WebsocketGateway');
+	private readonly logger: Logger = new Logger('ChatGateway');
 	private connectedClients: { [clientId: string]: Socket } = {};
 
 	@WebSocketServer()
