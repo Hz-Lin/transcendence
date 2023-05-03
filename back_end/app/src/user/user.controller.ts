@@ -10,11 +10,12 @@ import { AvatarInterceptor } from './interceptor/avatar.interceptor';
 import { UPLOADS_DIRECTORY } from './utils/constants';
 import { GetUser } from 'src/decorators/get-user.decorator';
 import { UpdateUsernameDto } from './dto/update-username-dto';
+import { AchievementsService } from 'src/achievements/achievements.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
-	constructor(private userService: UserService, private prisma: PrismaService) { }
+	constructor(private userService: UserService, private achievementService: AchievementsService, private prisma: PrismaService) { }
 
 	@Get('/')
 	async getUser(@Req() request): Promise<User> {
@@ -60,6 +61,17 @@ export class UserController {
 	getAvatar(@Query('avatar') avatar: string): StreamableFile {
 		return (this.userService.getAvatar(avatar));
 	}
+	
+	@Get('achievements')
+	async getAchievements(@GetUser() user: User): Promise<Achievements>{
+		return (await this.achievementService.getAchievements(user));
+	}
+	
+	@Get('achievements_other')
+	async getAchievementsBasedOnIntraId(@Param() params): Promise<Achievements> {
+		const otherIntraId: number = parseInt(params.id);
+		return (await this.achievementService.getAchievementsBasedOnIntraId(otherIntraId));
+	}
 
 	@Get(':id')
 	async getUserElementBasedOnIntraId(@Req() request, @Param() params): Promise<UserElement> {
@@ -78,12 +90,12 @@ export class UserController {
 	async uploadAvatar(
 		@GetUser() user: User,
 		@UploadedFile() file: Express.Multer.File
-	): Promise<void> {
-		if (!file || !file.filename) {
-			throw new BadRequestException('No file uploaded');
+		): Promise<void> {
+			if (!file || !file.filename) {
+				throw new BadRequestException('No file uploaded');
+			}
+			const filePath = `${UPLOADS_DIRECTORY}/${file.filename}`;
+			
+			await this.userService.updateAvatar(user.intraId, filePath);
 		}
-		const filePath = `${UPLOADS_DIRECTORY}/${file.filename}`;
-
-		await this.userService.updateAvatar(user.intraId, filePath);
-	}
 }

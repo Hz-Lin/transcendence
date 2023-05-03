@@ -8,6 +8,32 @@ export class AchievementsService {
         private readonly prisma: PrismaService,
     ) {}
 
+    async getAchievements(user: User): Promise<Achievements> {
+        try {
+            const achievements: Achievements = await this.prisma.achievements.findUnique({
+                where: {
+                    intraId: user.intraId,
+                },
+            });
+            return (achievements);
+        } catch(error: any) {
+            throw new Error(error);
+        }
+    }
+
+    async getAchievementsBasedOnIntraId(otherIntraId: number): Promise<Achievements> {
+        try {
+            const achievements: Achievements = await this.prisma.achievements.findUnique({
+                where: {
+                    intraId: otherIntraId,
+                },
+            });
+            return (achievements);
+        } catch(error: any) {
+            throw new Error(error);
+        }
+    }
+
     async checkWonGame(user: (User &  {achievements: Achievements;})): Promise<void> {
         if (user.achievements.wonGame === true)
             return ;
