@@ -140,12 +140,10 @@ onMounted(async () => {
 	})
 
 	socket.on('userJoined', (data) => {
-		console.log(`${data.user.name} joined`);
 		allConnectedClients.value.push(data.user.intraId);
 	})
 
 	socket.on('userLeft', (data) => {
-		console.log(`${data.user.name} left`);
 		const index = allConnectedClients.value.findIndex((intraId) => intraId === data.user.intraId);
 		if (index !== -1) {
 			allConnectedClients.value.splice(index, 1);
@@ -153,12 +151,8 @@ onMounted(async () => {
 	})
 
 	socket.on('otherJoinedMembers', (data) => {
-		console.log('active members in chat');
 		const allIntraIds: number[] = data.map((item: any) => item.intraId);
 		allConnectedClients.value = allIntraIds;
-		allConnectedClients.value.forEach((intraId: number) => {
-			console.log(intraId);
-		})
 	});
 
 	socket.on('message', (data) => {

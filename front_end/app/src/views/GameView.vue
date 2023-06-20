@@ -140,7 +140,6 @@ export default {
 		});
 
 		this.socket.on('playerisSet', async (players: Players) => {
-			console.log('in player is set');
 			if (storeUser.state.user.intraId === players.player1.intraId) {
 				this.player = 'playerone';
 			}
@@ -217,7 +216,6 @@ export default {
 	},
 
 	beforeUnmount() {
-		console.log('in before unmount')
 		window.cancelAnimationFrame(this.raf);
 		window.removeEventListener('keydown', this.handleEvent);
 		if (this.gameOver === false) {

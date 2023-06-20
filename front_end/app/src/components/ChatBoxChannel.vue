@@ -308,7 +308,6 @@ onMounted(async () => {
 			role: data.role,
 		};
 		activeMembers.value.push(memberdata);
-		console.log(`${memberdata.name} joined`);
 	});
 
 	socket.on('userLeft', (data) => {
@@ -322,7 +321,6 @@ onMounted(async () => {
 		if (index !== -1) {
 			activeMembers.value.splice(index, 1);
 		}
-		console.log(`${memberToRemove.name} left`);
 	});
 
 	socket.on('otherJoinedMembers', (data) => {
@@ -336,10 +334,6 @@ onMounted(async () => {
 			};
 		});
 		activeMembers.value = [...members];
-		console.log('active members in chat');
-		activeMembers.value.forEach((member: Member) => {
-			console.log(member.name);
-		})
 	})
 
 	socket.on('message', (data) => {

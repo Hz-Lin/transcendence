@@ -104,7 +104,6 @@ export class GameGateway
 	@UseGuards(GameClientGuard)
 	@SubscribeMessage('assignPlayers')
 	assignPlayers(@ConnectedSocket() client: Socket, @MessageBody() roomName: string) {
-		console.log('clientid = ', client.id);
 		const intraId: number = this.gameSharedService.clientToIntraId.get(client.id);
 		const players: Players = this.gameService.assignPlayers(client.id, intraId, roomName);
 

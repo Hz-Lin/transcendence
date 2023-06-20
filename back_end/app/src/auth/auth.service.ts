@@ -41,8 +41,6 @@ export class AuthService {
 		user: User,
 		@Res({ passthrough: true }) res: Response,
 	): Promise<void> {
-		console.log(`Hello ${user.intraName}, you have logged in!`);
-
 		const token: { access_token: string } = await this.signToken(user);
 
 		res.cookie('jwt', token.access_token, {
@@ -57,8 +55,6 @@ export class AuthService {
 		user: User,
 		@Res({ passthrough: true }) res: Response,
 	): Promise<void> {
-		console.log(`Hello ${user.intraName}, you have logged in!`);
-
 		const token = await this.signToken(user);
 
 		res.cookie('jwt', token.access_token, {
@@ -122,8 +118,6 @@ export class AuthService {
 	}
 
 	logout(user: User, @Res({ passthrough: true }) res: Response) {
-		console.log(`Hello ${user.intraName}, you are logged out!`);
-
 		res.cookie('jwt', '', {
 			httpOnly: true,
 			domain: `${process.env.HOST}`

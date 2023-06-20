@@ -41,7 +41,6 @@ export class GameService {
 		const players: Players = this.gameSharedService.playerData.get(roomName);
 		if (players && players.player1.intraId === intraId) {
 			if (!(players.player1.clientId === '' || players.player1.clientId === clientId)) {
-				console.log(players.player1.clientId, clientId);
 				return (null);
 			}
 			player1 = {
@@ -55,7 +54,6 @@ export class GameService {
 		}
 		else if (players && players.player2.intraId === intraId) {
 			if (!(players.player2.clientId === '' || players.player2.clientId === clientId)) {
-				console.log(players.player1.clientId, clientId);
 				return (null);
 			}
 			player2 = {
