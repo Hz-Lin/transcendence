@@ -60,7 +60,6 @@ export class ChatGateway
 			user = await this.jwtStrategy.validate(payload);
 		} catch (error: any) {
 			this.server.to(client.id).emit('unauthorized', { message: 'Authorization is required before a connection can be made' });
-			this.logger.error(`Client connection refused: ${client.id}`);
 			client.disconnect();
 		}
 		this.chatSharedService.clientToIntraId.set(client.id, user.intraId);

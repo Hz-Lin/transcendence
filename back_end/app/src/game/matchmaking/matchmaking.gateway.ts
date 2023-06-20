@@ -43,7 +43,6 @@ export class MatchmakingGateway implements OnGatewayInit, OnGatewayConnection, O
 			user = await this.jwtStrategy.validate(payload);
 		} catch (error: any) {
 			this.server.to(client.id).emit('unauthorized', { message: 'Authorization Failed' });
-			this.logger.error(`Client connection refused: ${client.id}`);
 			client.disconnect();
 			return;
 		}
